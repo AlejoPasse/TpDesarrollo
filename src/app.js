@@ -1,4 +1,23 @@
-let usuarios=[];
+let usuarios = [
+  {
+    id: 1,
+    nombre: "Juan Perez",
+    email: "juan.perez@example.com",
+    contrasena: "123456"
+  },
+  {
+    id: 2,
+    nombre: "Maria Gomez",
+    email: "maria.gomez@example.com",
+    contrasena: "abcdef"
+  },
+  {
+    id: 3,
+    nombre: "Carlos Lopez",
+    email: "carlos.lopez@example.com",
+    contrasena: "qwerty"
+  }
+];
 
 function crear(usuario) {
     usuario.push(usuario);
