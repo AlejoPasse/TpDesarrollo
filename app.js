@@ -1,6 +1,5 @@
 let clientes=[];
 }
-
 function crear(cliente){
     clientes.push(cliente);
 
