@@ -1,29 +1,29 @@
-let clientes=[];
+let usuario=[];
 
-function crear(cliente) {
-    clientes.push(cliente);
+function crear(usuario) {
+    usuario.push(usuario);
 }
 
 function listar() {
-    return clientes;
+    return usuario;
 }
 
 function actualizar(id,model) {
-    const cliente = clientes.find(c=>c.id===id);
+    const usuario = usuarios.find(c=>c.id===id);
 
-    if(cliente) {
-        cliente.nombre = model.nombre;
-        cliente.email = model.email;
-        cliente.contrasena =model.contrasena;
+    if(usuario) {
+        usuario.nombre = model.nombre;
+        usuario.email = model.email;
+        usuario.contrasena =model.contrasena;
     }
 
-    clientes.update(cliente);
+    usuarios.update(usuario);
 }
 
 function eliminar(id) {
-    var cliente = clientes.filter(c => c.id !== id);
+    var usuario = usuarios.filter(c => c.id !== id);
 
-    clientes.delete(cliente);
+    usuarios.delete(usuario);
 }
 
 module.exports= {
