@@ -2,12 +2,21 @@
   "name": "tpdesarrollo",
   "version": "1.0.0",
   "description": "probando",
+  "homepage": "https://github.com/AlejoPasse/TpDesarrollo#readme",
+  "bugs": {
+    "url": "https://github.com/AlejoPasse/TpDesarrollo/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlejoPasse/TpDesarrollo.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "express": "5.2.1"
   }
