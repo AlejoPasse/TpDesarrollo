@@ -1,5 +1,6 @@
 {
   "name": "tpdesarrollo",
+  "types": "module",
   "version": "1.0.0",
   "description": "probando",
   "homepage": "https://github.com/AlejoPasse/TpDesarrollo#readme",
