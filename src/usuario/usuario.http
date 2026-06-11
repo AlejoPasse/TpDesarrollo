@@ -1,0 +1,32 @@
+### Aca alojamos todos los protocolos HTTP relacionados a los usuarios
+
+# Obtener todos los usuarios
+GET http://localhost:3000/api/usuarios
+
+# Obtener un usuario por ID
+GET http://localhost:3000/api/usuarios/1
+
+# Crear un nuevo usuario
+POST http://localhost:3000/api/usuarios
+Content-Type: application/json
+
+{
+    "id": "4",
+    "name": "Seba",
+    "email": "seba@gmail.com",
+    "password": "password321"
+}
+
+# Actualizar un usuario existente
+PUT http://localhost:3000/api/usuarios/1
+Content-Type: application/json
+
+{
+    "id": "1",
+    "name": "Bruno Updated",
+    "email": "bruno.updated@gmail.com",
+    "password": "updatedpassword123"
+}
+
+# Eliminar un usuario
+DELETE http://localhost:3000/api/usuarios/1
