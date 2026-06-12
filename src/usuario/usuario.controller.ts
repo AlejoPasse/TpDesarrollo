@@ -1,15 +1,35 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { UsuarioRepository } from "./usuario.repository.js";
+import { Usuario } from "./usuario.entity.js";
 
 const repository = new UsuarioRepository();
 
+
+//request sanitizada (seba)
+function sanitizeUserRequest(req: Request, res: Response, next: NextFunction) {
+    req.body.sanitizedInput = { 
+        nombre: req.body.nombre,
+        email: req.body.email,
+        password: req.body.password
+    };
+    
+    Object.keys(req.body.sanitizedInput).forEach((key) => {
+        if (req.body.sanitizedInput[key] === undefined) {
+            delete req.body.sanitizedInput[key];
+        }
+        })
+    next()
+}
+
 //Aca falta sanitizar la request 
 
-//
 
+//findAll
 function findAll(req: Request, res: Response) {
     res.json({ data: repository.findAll() });
 }
+
+//findOne
 function findOne(req: Request, res: Response) {
     const id = req.params.id as string;
     const user = repository.findOne({id});
@@ -20,10 +40,23 @@ function findOne(req: Request, res: Response) {
     }
 }
 
-//Falta agregar la funcion create
+//create
+function create(req: Request, res: Response) {
+    const input = req.body.sanitizedInput 
+
+    const userInput = new Usuario(
+        input.id,
+        input.nombre,
+        input.email,
+        input.password
+    );
+
+    const user = repository.create(userInput)
+    return res.status(201).json({ message: "User created",data: user })
+}
 
 //Falta agregar la funcion update
 
 //Falta agregar la funcion delete
 
-export { findAll, findOne }; //exportar las funciones que faltan en routes
+export { findAll, findOne, create, sanitizeUserRequest }; //exportar las funciones que faltan en routes
