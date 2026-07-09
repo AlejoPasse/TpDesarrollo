@@ -21,8 +21,6 @@ function sanitizeUserRequest(req: Request, res: Response, next: NextFunction) {
     next()
 }
 
-//Aca falta sanitizar la request 
-
 
 //findAll
 function findAll(req: Request, res: Response) {
@@ -56,7 +54,27 @@ function create(req: Request, res: Response) {
 }
 
 //Falta agregar la funcion update
+function update(req: Request, res: Response) {
+    req.body.sanitizedInput = req.params.id
+    const user = repository.update(req.body.sanitizedInput)
+
+    if(!user) {
+        return res.status(404).send({ message: "User not found" });
+    }
+
+    return res.status(200).send({ message: "User updated", data: user });
+}
 
 //Falta agregar la funcion delete
+function remove(req: Request, res: Response) {
+    const id = req.params.id as string; 
+    const user = repository.delete({id});
 
-export { findAll, findOne, create, sanitizeUserRequest }; //exportar las funciones que faltan en routes
+    if (!user) {
+        res.status(404).send({ message: "User not found" });
+    } else {
+        res.status(200).send({ message: "User deleted"});
+    }
+}
+
+export { findAll, findOne, create, sanitizeUserRequest, update, remove}; //exportar las funciones que faltan en routes
