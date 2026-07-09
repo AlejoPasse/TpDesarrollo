@@ -1,13 +1,13 @@
 
 import express,{Request,Response} from "express";
-import { usuarioRoutes } from "./usuario/usuario.routes.js";
+import { usuarioRouter } from "./usuario/usuario.routes.js";
 
 
 const app = express();
 app.use(express.json());
 
 
-app.use("/api/usuarios", usuarioRoutes);
+app.use("/api/usuarios", usuarioRouter);
 
 
 app.listen(3000, () => {

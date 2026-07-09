@@ -11,7 +11,7 @@ POST http://localhost:3000/api/usuarios
 Content-Type: application/json
 
 {
-    "id": "4",
+    "id": "4-4-4-4-4",
     "name": "Seba",
     "email": "seba@gmail.com",
     "password": "password321"
@@ -22,7 +22,7 @@ PUT http://localhost:3000/api/usuarios/1
 Content-Type: application/json
 
 {
-    "id": "1",
+    "id": "1-1-1-1-1",
     "name": "Bruno Updated",
     "email": "bruno.updated@gmail.com",
     "password": "updatedpassword123"

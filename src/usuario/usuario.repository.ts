@@ -12,9 +12,11 @@ export class UsuarioRepository implements Repository<Usuario> {
     findAll(): Usuario[] | undefined {
         return usuarios;
     }
+    
     findOne(item: {id: string}): Usuario | undefined {
         return usuarios.find(user => user.id === item.id);
     }
+
     create(item: Usuario): Usuario | undefined { 
         usuarios.push(item);
         return item;
