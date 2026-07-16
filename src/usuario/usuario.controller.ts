@@ -8,6 +8,7 @@ const repository = new UsuarioRepository();
 //request sanitizada (seba)
 function sanitizeUserRequest(req: Request, res: Response, next: NextFunction) {
     req.body.sanitizedInput = { 
+        id: req.body.id || crypto.randomUUID(),
         nombre: req.body.nombre,
         email: req.body.email,
         password: req.body.password
@@ -55,7 +56,7 @@ function create(req: Request, res: Response) {
 
 //Falta agregar la funcion update
 function update(req: Request, res: Response) {
-    req.body.sanitizedInput = req.params.id
+    req.body.sanitizedInput.id = req.params.id
     const user = repository.update(req.body.sanitizedInput)
 
     if(!user) {
