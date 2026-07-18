@@ -4,7 +4,7 @@
 GET http://localhost:3000/api/usuarios
 
 ### Obtener un usuario por ID
-GET http://localhost:3000/api/usuarios/1
+GET http://localhost:3000/api/usuarios/2
 
 ### Crear un nuevo usuario
 POST http://localhost:3000/api/usuarios
@@ -17,7 +17,7 @@ Content-Type: application/json
 }
 
 ### Actualizar un usuario existente
-PUT http://localhost:3000/api/usuarios/1
+PUT http://localhost:3000/api/usuarios/2
 Content-Type: application/json
 
 {
@@ -26,5 +26,12 @@ Content-Type: application/json
     "password": "updatedsebpassword123"
 }
 
+###actualizar parcialmente un usuario existente
+PATCH http://localhost:3000/api/usuarios/2
+Content-Type: application/json
+
+{
+    "name": "Sebas actualizado"
+}
 ### Eliminar un usuario
-DELETE http://localhost:3000/api/usuarios/4
+DELETE http://localhost:3000/api/usuarios/3
