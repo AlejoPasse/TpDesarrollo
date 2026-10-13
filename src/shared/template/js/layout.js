@@ -1,6 +1,6 @@
 const paginas = {
-  inicio: "/pages/inicio.html",
-  socios: "/pages/socios.html"
+  inicio: "./src/pages/login.html",
+  alta: "./src/pages/alta.html"
 };
 
 const contenido = document.getElementById("contenido");
