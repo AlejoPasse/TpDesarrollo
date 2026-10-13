@@ -1,11 +1,11 @@
 import { Entity, ManyToOne, PrimaryKey, Property } from "@mikro-orm/decorators/legacy";
-import { Membresia } from "../membresia/membresia.entity.js";
+import { TipoMembresias } from "../tipo_membresia/tipo_membresia.entity.js";
 
 
 @Entity()
 export class PrecioMembresia {
-  @ManyToOne(() => Membresia , {primary: true})
-  membresia!: Membresia;
+  @ManyToOne(() => TipoMembresias , {primary: true})
+  membresia!: TipoMembresias;
   @PrimaryKey({type: 'date'})
   date_price!: Date;
   @Property({type: 'number', nullable: false})

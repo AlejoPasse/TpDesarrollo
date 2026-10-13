@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { findAll, findOne, remove, create, update, sanitizeEjercicioRequest } from "./membresia.controller.js";
+import { findAll, findOne, remove, create, update, sanitizeEjercicioRequest } from "./tipo_membresia.controller.js";
 
 export const ejercicioRouter = Router();
 
