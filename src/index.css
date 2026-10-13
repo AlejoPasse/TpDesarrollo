@@ -1,0 +1,44 @@
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Rapiboy</title>
+    <!-- Enlaza aquí los CSS principales de la plantilla -->
+    <link rel="stylesheet" href="assets/app/css/style.bundle.css">
+</head>
+<body class="kt-login--v1">
+    <div class="kt-grid kt-grid--ver kt-grid--root kt-page">
+        <div class="kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor kt-login-v1" id="kt_login_v1">
+            <div class="kt-grid__item kt-grid__item--fluid kt-login-v1__wrapper">
+                <div class="kt-login-v1__container">
+                    <div class="kt-login-v1__logo">
+                        <a href="#"><h1>Rapiboy</h1></a>
+                    </div>
+                    
+                    <!-- Formulario de Login -->
+                    <form class="kt-form" action="" method="POST">
+                        <div class="form-group">
+                            <input class="form-control" type="text" placeholder="Correo electrónico" name="email" autocomplete="off" required>
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="password" placeholder="Contraseña" name="password" required>
+                        </div>
+                        <div class="kt-login-v1__actions">
+                            <button id="kt_login_submit" class="btn btn-primary btn-elevate">Ingresar</button>
+                        </div>
+                    </form>
+                    
+                    <div class="kt-login-v1__divider">
+                        <div class="kt-divider"><span>¿No tienes una cuenta?</span></div>
+                    </div>
+                    
+                    <div class="kt-login-v1__nav">
+                        <a href="register.html" class="kt-link">Crear una cuenta nueva</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Enlaza los scripts de la plantilla si es necesario -->
+</body>
+</html>
