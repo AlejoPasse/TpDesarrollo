@@ -1,6 +1,6 @@
-import  z  from 'zod';
+import  z  from 'zod'; 
 
-export const ValidUsuarioSchema = z.object
+export const ValidUsuarioSchema = z.object //crea los schemas de validacion para los datos de usuario
 ({
     name: z
         .string()
