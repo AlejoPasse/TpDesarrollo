@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { findAll, findOne, remove, create, update, sanitizeEjercicioRequest } from "./tipo_membresia.controller.js";
+import { findAll, findOne, remove, create, update, sanitizeTipoMembresiaRequest } from "./tipo_membresia.controller.js";
 
-export const ejercicioRouter = Router();
+export const tipoMembresiaRouter = Router();
 
-ejercicioRouter.get("/", findAll);
-ejercicioRouter.get("/:id", findOne);
-ejercicioRouter.post("/", sanitizeEjercicioRequest, create);
-ejercicioRouter.put("/:id", sanitizeEjercicioRequest, update);
-ejercicioRouter.patch("/:id", sanitizeEjercicioRequest, update);
-ejercicioRouter.delete("/:id", remove);
+tipoMembresiaRouter.get("/", findAll);
+tipoMembresiaRouter.get("/:id", findOne);
+tipoMembresiaRouter.post("/", sanitizeTipoMembresiaRequest, create);
+tipoMembresiaRouter.put("/:id", sanitizeTipoMembresiaRequest, update);
+tipoMembresiaRouter.patch("/:id", sanitizeTipoMembresiaRequest, update);
+tipoMembresiaRouter.delete("/:id", remove);
