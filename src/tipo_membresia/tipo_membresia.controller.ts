@@ -29,8 +29,8 @@ function sanitizeTipoMembresiaRequest(req: Request, res: Response, next: NextFun
 //findAll
 async function findAll(req: Request, res: Response) {
     try {
-        const memberships = await em.find(Membresias, {})
-        res.status(200).json({ message: "Memberships found", data: memberships })
+        const typeMemberships = await em.find(TipoMembresias, {})
+        res.status(200).json({ message: "Type memberships found", data: typeMemberships })
     } catch (error:any) {
         res.status(500).json({ message: error.message })
     }
@@ -40,12 +40,12 @@ async function findAll(req: Request, res: Response) {
 async function findOne(req: Request, res: Response) {
     try{
         const id = parseInt(req.params.id as string);
-        const membership = await em.findOne(Membresias, {id});
-        if(!membership){
-            return res.status(404).json({ message: "Membership not found" });
+        const typeMembership = await em.findOne(TipoMembresias, {id});
+        if(!typeMembership){
+            return res.status(404).json({ message: "Type membership not found" });
         }
         else{
-            res.status(200).json({ message: "Membership found", data: membership });
+            res.status(200).json({ message: "Type membership found", data: typeMembership });
         }
     } catch (error:any) {
         res.status(500).json({ message: error.message });
@@ -56,9 +56,9 @@ async function findOne(req: Request, res: Response) {
 //create
 async function create(req: Request, res: Response) {
     try {
-        const membership =  em.create(Membresias, req.body.sanitizedInput);
+        const typeMembership =  em.create(TipoMembresias, req.body.sanitizedInput);
         await em.flush();
-        res.status(201).json({ message: "Membership created", data: membership });
+        res.status(201).json({ message: "Type membership created", data: typeMembership });
     } catch (error:any) {
         res.status(500).json({ message: error.message });
     }
@@ -68,10 +68,10 @@ async function create(req: Request, res: Response) {
  async function update(req: Request, res: Response) {
     try{
         const id = Number.parseInt(req.params.id as string)
-        const membership = em.getReference(Membresias, id)
-        em.assign(membership, req.body.sanitizedInput)
+        const typeMembership = em.getReference(TipoMembresias, id)
+        em.assign(typeMembership, req.body.sanitizedInput)
         await em.flush()
-        res.status(200).json({ message: "Membership updated", data: membership });
+        res.status(200).json({ message: "Type membership updated", data: typeMembership });
     } catch (error:any) {
         res.status(500).json({ message: error.message });
     }
@@ -82,10 +82,10 @@ async function create(req: Request, res: Response) {
 async function remove(req: Request, res: Response) {
 try{
     const id = Number.parseInt(req.params.id as string)
-    const membership = await em.getReference(Membresias, id)
-    em.remove(membership)
+    const typeMembership = await em.getReference(TipoMembresias, id)
+    em.remove(typeMembership)
     await em.flush()
-    res.status(200).json({ message: "Membership deleted" });
+    res.status(200).json({ message: "Type membership deleted" });
  }catch (error:any) {
     res.status(500).json({ message: error.message });
  }
@@ -93,4 +93,4 @@ try{
 }
 
 
-export {sanitizeEjercicioRequest, findAll, findOne, remove, create, update};
+export {sanitizeTipoMembresiaRequest, findAll, findOne, remove, create, update};
