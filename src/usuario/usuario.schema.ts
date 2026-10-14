@@ -22,4 +22,9 @@ export const ValidUsuarioSchema = z.object //crea los schemas de validacion para
         .regex(/[^A-Za-z0-9]/, { error: 'La contraseña debe contener al menos un símbolo especial' }),
 });
 
-export const UpdateUsuario = ValidUsuarioSchema.partial();
+export const UpdateUsuario = ValidUsuarioSchema.partial(); // esquema zod para actualizar parcialmente un usuario, todos los campos son opcionales
+
+export const LoginUsuarioSchema = z.object({
+    email: z.string().email("El email no es válido"),
+    password: z.string().min(1, "La contraseña es obligatoria") //esquema zod para el login de usuario, solo requiere email y contraseña, ambos obligatorios
+});

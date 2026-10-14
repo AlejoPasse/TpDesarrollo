@@ -4,39 +4,39 @@ use gymdb;
 
 create TABLE if NOT EXISTS `gymdb`.`usuarios` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `nombre` VARCHAR(255) NULL,
+    `name` VARCHAR(255) NULL,
     `email` VARCHAR(255) NULL,
-    `contraseña` VARCHAR(255) NULL,
+    `password` VARCHAR(255) NULL,
     PRIMARY KEY (`id`));
 
 INSERT INTO usuarios (id, name, email, password) VALUES (1, 'seba', 'seba@gmail.com', 'Seba/334');
 
 create TABLE if NOT EXISTS `gymdb`.`rutinas` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `nombre` VARCHAR(255) NULL,
-    `descripcion` VARCHAR(255) NULL,
-    `nivel` VARCHAR(255) NULL,
+    `name` VARCHAR(255) NULL,
+    `description` VARCHAR(255) NULL,
+    `level` VARCHAR(255) NULL,
     PRIMARY KEY (`id`));
 
 create TABLE if NOT EXISTS `gymdb`.`ejercicios` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `nombre` VARCHAR(255) NULL,
-    `descripcion` VARCHAR(255) NULL,
-    `notas` VARCHAR(255) NULL,
+    `name` VARCHAR(255) NULL,
+    `description` VARCHAR(255) NULL,
+    `notes` VARCHAR(255) NULL,
     PRIMARY KEY (`id`));
 
 
 create TABLE if NOT EXISTS `gymdb`.`clases` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `nombre` VARCHAR(255) NULL,
-    `horario` TIME NULL,
-    `cupos` INT(255) NULL,
+    `name` VARCHAR(255) NULL,
+    `schedule` TIME NULL,
+    `capacity` INT(255) NULL,
     PRIMARY KEY (`id`));
 
 create TABLE if NOT EXISTS `gymdb`.`tipoMembresias` (
     `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `nombre` VARCHAR(255) NULL,
-    `descripcion` VARCHAR(255) NULL,
+    `name` VARCHAR(255) NULL,
+    `description` VARCHAR(255) NULL,
     PRIMARY KEY (`id`));
 
 create TABLE if NOT EXISTS `gymdb`.`precioTipoMembresias` (
@@ -50,10 +50,10 @@ create TABLE if NOT EXISTS `gymdb`.`precioTipoMembresias` (
     FOREIGN KEY (tipoMembresiaId) REFERENCES TipoMembresias(id));
 
 create TABLE if NOT EXISTS `gymdb`.`Asistencia` (
-    `UsuarioId` INT UNSIGNED NOT NULL,
-    `fechaAsistencia` INT UNSIGNED NOT NULL,
+    `usuarioId` INT UNSIGNED NOT NULL,
+    `asistenceDate` INT UNSIGNED NOT NULL,
 
-    PRIMARY KEY (usuarioId, fechaAsistencia),
+    PRIMARY KEY (usuarioId, asistenceDate),
 
     FOREIGN KEY (usuarioId) REFERENCES Usuarios(id));
 

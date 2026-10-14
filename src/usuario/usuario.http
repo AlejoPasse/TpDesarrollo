@@ -23,7 +23,7 @@ Content-Type: application/json
 {
     "name": "sebas updated",
     "email": "sebas.updated@gmail.com",
-    "password": "updatedsebpassword123"
+    "password": "Nueva-Contra22"
 }
 
 ###actualizar parcialmente un usuario existente
@@ -35,3 +35,11 @@ Content-Type: application/json
 }
 ### Eliminar un usuario
 DELETE http://localhost:3000/api/usuarios/3
+
+POST http://localhost:3000/api/usuarios/login
+Content-Type: application/json
+
+{
+  "email": "sebas.updated@gmail.com",
+  "password": "Nueva-Contra22"
+}

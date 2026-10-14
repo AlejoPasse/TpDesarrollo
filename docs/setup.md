@@ -1,5 +1,5 @@
 docker run --name gym-database `
-    -v "acá va la ruta donde quieren guardar el server(puede ser donde quieran)":/var/lib/mysql `
+    -v "(ruta de la carpeta local para alamcenar la data base):/var/lib/mysql" `
     -e MYSQL_ROOT_HOST='%' `
     -e MYSQL_ALLOW_EMPTY_PASSWORD="yes" `
     -e MYSQL_PASSWORD="dsw" `
@@ -11,11 +11,13 @@ docker run --name gym-database `
 ### El comando de arriba inicializa el un servidor mysql con docker, necesitan instalar docker desktop para que funcione
 
 
-
 ### el separador (`) es en powershell, en cmd es (^) y en gitbash o wsl es (\) cuando abren una terminal arriba a la derecha de la misma les dice cual es
  
 ### necesitan las extensiones de "mysql shel for vscode" y una para ver los containers de docker.
 
-luego de hacer esto queda inciciado para apagarlo es: docker stop gym-database
+para iniciarlo: docker start gym-database
 
-y para volver a iniciarlo: docker start gym-database
+para apagarlo es: docker stop gym-database
+
+LUEGO en mysql.commands.sql esta todo el comando, compian pegan en mysql workbench y con shift intro crean la base de datos y las tablas,
+### Aclaracion: las tablas estan vacias (salvo por 1 dato en usuarios)
