@@ -1,5 +1,5 @@
 import {Router} from "express";
-import {findAll, findOne, remove, create, update, sanitizeUserRequest} from "./usuario.controller.js"; //importar las funciones que faltan desde controller
+import {findAll, findOne, remove, create, update, sanitizeUserRequest} from "./usuario.controller.js"; 
 
 export const usuarioRouter = Router();
 
