@@ -1,6 +1,7 @@
 const paginas = {
   inicio: "./src/pages/login.html",
-  alta: "./src/pages/alta.html"
+  alta: "./src/pages/alta.html",
+  olvide: "./src/pages/olvide.html"
 };
 
 const contenido = document.getElementById("contenido");

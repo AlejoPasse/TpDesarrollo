@@ -23,9 +23,11 @@
 		
 		<main id="contenido" class="m-content"></main>
 		
-		<script src="./shared/template/js/scripts.bundle.js" type="text/javascript"></script>
-		<script src="./shared/template/js/vendors.bundle.js" type="text/javascript"></script>
-		<script type="module" src="./shared/template/js/layout.js"></script>
+		<!-- Primero los vendors (que incluyen jQuery) -->
+		<script src="./src/shared/template/js/vendors.bundle.js" type="text/javascript"></script>
+		<!-- Después los scripts de la plantilla -->
+		<script src="./src/shared/template/js/scripts.bundle.js" type="text/javascript"></script>
+		<script type="module" src="./src/shared/template/js/layout.js"></script>
     </body>
 
 </html>
