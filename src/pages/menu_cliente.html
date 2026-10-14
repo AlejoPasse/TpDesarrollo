@@ -1,0 +1,104 @@
+<div class="m-grid m-grid--hor m-grid--root m-page">
+    <!-- BEGIN: Header -->
+    <header id="m_header" class="m-header m-header--fixed" m-minimize-offset="200" m-minimize-mobile-offset="200">
+        <div class="m-container m-container--fluid m-container--full-height m-page__container d-flex align-items-center justify-content-between">
+            <!-- Brand / Logo -->
+            <div class="m-brand m-brand--fixed">
+                <a href="#menu_cliente" class="m-brand__logo">
+                    <img src="./src/img/logo-gimnasio.jpg" alt="Logo Gimnasio" style="height: 40px !important; width: auto !important; max-height: 40px !important;">
+                </a>
+            </div>
+            <!-- Topbar / Botón de Cerrar Sesión -->
+            <div class="d-flex align-items-center ml-auto">
+                <div class="m-topbar">
+                    <div class="m-topbar__nav-item">
+                        <a href="#inicio" class="btn btn-outline-danger m-btn m-btn--pill m-btn--custom btn-sm">Cerrar sesión</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- END: Header -->
+
+    <!-- BEGIN: Body -->
+    <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-page__body mt-5 pt-4">
+        <!-- BEGIN: Left Aside / Menú Lateral -->
+        <div id="m_aside_left" class="m-grid__item m-aside-left m-aside-left--fixed bg-dark">
+            <div id="m_ver_menu" class="m-aside-menu m-aside-menu--skin-dark m-aside-menu--submenu-skin-dark" m-aside-menu-vertical="1" m-aside-menu-scroll="1">
+                <ul class="m-menu__nav m-menu__nav--dropdown-submenu-arrow py-4">
+                    <li class="m-menu__item m-menu__item--active px-4 py-2">
+                        <a href="#menu_cliente" class="m-menu__link text-white text-decoration-none">
+                            <span class="m-menu__link-text">🏠 Inicio / Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="m-menu__item px-4 py-2">
+                        <a href="#rutina" class="m-menu__link text-muted text-decoration-none">
+                            <span class="m-menu__link-text">📋 Mis Rutinas</span>
+                        </a>
+                    </li>
+                    <li class="m-menu__item px-4 py-2">
+                        <a href="#asistencia" class="m-menu__link text-muted text-decoration-none">
+                            <span class="m-menu__link-text">📅 Mis Asistencias</span>
+                        </a>
+                    </li>
+                    <li class="m-menu__item px-4 py-2">
+                        <a href="#precio_membresia" class="m-menu__link text-muted text-decoration-none">
+                            <span class="m-menu__link-text">💳 Membresía y Pagos</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- END: Left Aside -->
+
+        <!-- BEGIN: Main Content / Contenido Principal -->
+        <div class="m-grid__item m-grid__item--fluid m-wrapper p-5">
+            <!-- Subheader -->
+            <div class="m-subheader mb-4">
+                <div class="d-flex align-items-center">
+                    <div class="mr-auto">
+                        <h3 class="m-subheader__title font-weight-bold mb-1">Panel del Socio</h3>
+                        <span class="m-subheader__desc text-muted">Bienvenido a tu espacio de entrenamiento personalizado.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Body / Tarjetas de Resumen -->
+            <div class="m-content">
+                <div class="row">
+                    
+                    <!-- Tarjeta de Membresía -->
+                    <div class="col-lg-4 mb-4">
+                        <div class="card p-4 shadow-sm h-100">
+                            <h4 class="font-size-h5 mb-3 text-dark">Estado de Membresía</h4>
+                            <div class="bg-primary p-3 text-white rounded text-center mb-3">
+                                <h5 class="mb-1 text-white">Plan Activo</h5>
+                                <span class="small opacity-75">Vigente hasta el 15/11/2026</span>
+                            </div>
+                            <p class="text-dark mb-1"><strong>Asistencias este mes:</strong> 12</p>
+                            <p class="text-dark mb-1"><strong>Rutina asignada:</strong> Fuerza e Hipertrofia</p>
+                        </div>
+                    </div>
+
+                    <!-- Tarjeta de Avisos y Novedades -->
+                    <div class="col-lg-8 mb-4">
+                        <div class="card p-4 shadow-sm h-100">
+                            <h4 class="font-size-h5 mb-3 text-dark">Novedades del Gimnasio</h4>
+                            <div class="border-left border-success pl-3 mb-4">
+                                <h5 class="font-size-h6 mb-1 text-dark">Actualización de Rutina</h5>
+                                <p class="text-muted mb-0">Se han actualizado los pesos y ejercicios para tu ciclo mensual de entrenamiento.</p>
+                            </div>
+                            <div class="border-left border-warning pl-3">
+                                <h5 class="font-size-h6 mb-1 text-dark">Horario Especial Feriado</h5>
+                                <p class="text-muted mb-0">El próximo lunes el gimnasio abrirá en horario reducido de 09:00 a 16:00 hs.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- END: Main Content -->
+    </div>
+    <!-- END: Body -->
+</div>
