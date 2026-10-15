@@ -3,9 +3,64 @@ import  {orm} from "../shared/db/orm.js";
 import {  Usuarios } from "./usuario.entity.js";
 import { ValidUsuarioSchema , UpdateUsuario, LoginUsuarioSchema } from './usuario.schema.js';
 import argon2 from 'argon2';
-
+import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const em = orm.em;
+
+//register
+async function register(req: Request, res: Response) {
+    try {
+        const valid = ValidUsuarioSchema.safeParse(req.body);
+
+        if (!valid.success) {
+            return res.status(400).json({
+                message: "Fallo al registrar usuario",
+                errors: valid.error.issues.map(issue => ({
+                    campo_error: issue.path.join('.'),
+                    mensaje: issue.message
+                }))
+            });
+        }
+
+        const { name, email, password } = valid.data;
+
+        // Verifica si el usuario ya existe
+        const existingUser = await em.findOne(Usuarios, { email });
+        if (existingUser) {
+            return res.status(400).json({
+                message: "El email ya está en uso"
+            });
+        }
+
+        // Hashea la contraseña
+        const hashedPassword = await argon2.hash(password);
+
+        // Crea el nuevo usuario
+        const user = em.create(Usuarios, {
+            name,
+            email,
+            password: hashedPassword
+        });
+
+        await em.flush();
+
+        return res.status(201).json({
+            message: "Usuario registrado exitosamente",
+            data: {
+                id: user.id,
+                name: user.name,
+                email: user.email
+            }
+        });
+    } catch (error: any) {
+        console.error("Error en register:", error);
+        return res.status(500).json({
+            message: error.message
+        });
+    }
+}
 
 
 // login
@@ -25,6 +80,7 @@ async function login(req: Request, res: Response) {
 
         const { email, password } = valid.data;
 
+        // Busca el usuario en la base de datos por email
         const user = await em.findOne(Usuarios, { email });
 
         if (!user) {
@@ -33,6 +89,7 @@ async function login(req: Request, res: Response) {
             });
         }
 
+        // Verifica la contraseña usando argon2
         const passwordCorrecta = await argon2.verify(user.password, password);
 
         if (!passwordCorrecta) {
@@ -40,15 +97,42 @@ async function login(req: Request, res: Response) {
                 message: "Email o contraseña incorrectos"
             });
         }
+/* 
+        // Genera un token JWT para el usuario autenticado
+        const secret = process.env.JWT_SECRET;
+            if (!secret) {
+            throw new Error("JWT_SECRET no está configurado");
+            }
 
+        const token = jwt.sign(
+            { id: user.id, email: user.email }, 
+            secret, {expiresIn: '15m'} );// Expira en 15 minutos
+            res.cookie('access_token', token, { 
+                httpOnly: true, 
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 900000 // 15 minutos en milisegundos
+            }); // Configura la cookie del token para el acceso
+        
+        const refreshToken = jwt.sign(
+            { id: user.id, email: user.email }, 
+            secret, {expiresIn: '7d'});// Expira en 7 días
+            res.cookie('refresh_token', refreshToken, { 
+                httpOnly: true, 
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 604800000 // 7 días en milisegundos
+            }); // Configura la cookie del token de refresco
+    
+        // Devuelve el token y la información del usuario (sin la contraseña)
         return res.status(200).json({
             message: "Login exitoso",
             data: {
                 id: user.id,
-                name: user.name,
-                email: user.email
+                email: user.email,
+                token: token,
+                refreshToken: refreshToken
             }
-        });
+        }); */
+
 
     } catch (error: any) {
         console.error("Error en login:", error);
@@ -59,7 +143,6 @@ async function login(req: Request, res: Response) {
     }}
 
 //request sanitizada ZOD
-
 function sanitizeUserRequest(req: Request, res: Response, next: NextFunction) {
     const schema = req.method === 'PATCH' //revisa si es un metodo PATCH para usar el schema de actualizacion o el de creacion
         ? UpdateUsuario
