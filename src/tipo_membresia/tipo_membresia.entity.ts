@@ -8,8 +8,4 @@ export class TipoMembresias extends BaseEntity {
   name!: string;
   @Property({type: 'string', nullable: false, length: 100})
   description!: string;
-  @Property({type: 'string', nullable: false, length: 100})
-  duration!: string;
-  @Property({type: 'string', nullable: false, length: 100})
-  state!: string;
 }

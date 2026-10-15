@@ -1,14 +1,14 @@
 import {TipoMembresias} from "./tipo_membresia.entity.js";
 import {orm} from "../shared/db/orm.js";
 import { Request, Response, NextFunction } from "express";
-import { ValidMembresiaSchema, UpdateMembresia } from "./tipo_membresia.schema.js";
+import { ValidTipoMembresiaSchema, UpdateTipoMembresia } from "./tipo_membresia.schema.js";
 
 const em = orm.em;
 
 function sanitizeTipoMembresiaRequest(req: Request, res: Response, next: NextFunction) {
     const schema = req.method === 'PATCH' //revisa si es un metodo PATCH para usar el schema de actualizacion o el de creacion
-        ? UpdateMembresia
-        : ValidMembresiaSchema;
+        ? UpdateTipoMembresia
+        : ValidTipoMembresiaSchema;
 
     const valid = schema.safeParse(req.body);
 

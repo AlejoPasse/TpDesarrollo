@@ -1,6 +1,6 @@
 import  {z}  from 'zod';
 
-export const ValidMembresiaSchema = z.object
+export const ValidTipoMembresiaSchema = z.object
 ({
     name: z
         .string()
@@ -14,4 +14,4 @@ export const ValidMembresiaSchema = z.object
         .min(1, 'La descripción es obligatoria'),
 });
 
-export const UpdateMembresia = ValidMembresiaSchema.partial();
+export const UpdateTipoMembresia = ValidTipoMembresiaSchema.partial();
