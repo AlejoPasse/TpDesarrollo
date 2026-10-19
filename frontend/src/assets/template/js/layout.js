@@ -1,8 +1,8 @@
 const paginas = {
-  inicio: "./src/pages/login.html",
-  alta: "./src/pages/alta.html",
-  olvide: "./src/pages/olvide.html",
-  menu_cliente: "./src/pages/menu_cliente.html"
+  inicio: "../../../../src/pages/login.html",
+  alta: "../../../../src/pages/alta.html",
+  olvide: "../../../../src/pages/olvide.html",
+  menu_cliente: "../../../../src/pages/menu_cliente.html"
 };
 
 const contenido = document.getElementById("contenido");
