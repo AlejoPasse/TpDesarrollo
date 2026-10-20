@@ -100,30 +100,40 @@ async function login(req: Request, res: Response) {
 
         // Genera un token JWT para el usuario autenticado
         const secret = process.env.JWT_SECRET;
-        if (!secret) {
-            throw new Error("JWT_SECRET no está configurado");
+        const refreshSecret = process.env.JWT_REFRESH_SECRET;
+
+        if (!secret || !refreshSecret) {
+            return res.status(500).json({
+                message: "Error en la configuración del servidor"
+            });
         }
 
-        const token = jwt.sign(
+        const accessToken = jwt.sign(
             { id: user.id, email: user.email }, 
             secret, { expiresIn: '15m' } 
         );
 
         const refreshToken = jwt.sign(
             { id: user.id, email: user.email }, 
-            secret, { expiresIn: '7d' }
+            refreshSecret, { expiresIn: '7d' }
         );
     
+        res.cookie("refreshCookie", refreshToken, {
+            httpOnly: true,
+          secure: process.env.NODE_ENV === 'production', 
+            sameSite: 'lax', 
+            maxAge: 7 * 24 * 60 * 60 * 1000 
+        });
         // Devuelve el token y la información del usuario
         return res.status(200).json({
             message: "Login exitoso",
+            token: accessToken,
             data: {
                 id: user.id,
                 email: user.email,
-                token: token,
-                refreshToken: refreshToken
             }
         });
+
     } catch (error: any) {
         console.error("Error en login:", error);
 

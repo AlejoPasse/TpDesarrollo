@@ -5,11 +5,11 @@ export interface LoginCredentials {
 
 export interface AuthResponse {
   success: boolean;
-  message?: string;
-  token?: string;
+  message: string;
+  token: string;
   usuario?: {
     id: number;
     email: string;
-    nombre?: string;
+    nombre: string;
   };
 }

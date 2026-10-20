@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { loginUser } from '../services/auth.service';
+import { useAuth } from '../auth/auth.provider.tsx';
 import logoGym from '../assets/img/logo-gimnasio.jpg';
 import bgGym from '../assets/img/bg-5.jpg';
 import { useNavigate, Link } from 'react-router-dom';
 
 export default function Login() {
+  const { login, user } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [mensajeError, setMensajeError] = useState('');
@@ -27,12 +28,15 @@ export default function Login() {
     setLoading(true);
 
     try {
-      const data = await loginUser({ email, password });
-      console.log('Login exitoso:', data);
-      
+      console.log('Enviando login...');
+
+      /* const data = await loginUser({ email, password }); */
+      await login({ email, password });
+      console.log('Login exitoso:', user);
       // Redirigir al usuario al dashboard tras un inicio de sesión exitoso
       navigate('/dashboard');
     } catch (err: unknown) {
+      console.error('Error en login:', err);
       const mensaje =
         err instanceof Error
           ? err.message

@@ -4,6 +4,7 @@ const API_URL = 'http://localhost:3000/api';
 export const loginUser = async (credentials: LoginCredentials): Promise<AuthResponse> => {
   const response = await fetch(`${API_URL}/usuarios/login`, {
     method: 'POST',
+    credentials: 'include', // Esto permite enviar cookies con la solicitud
     headers: {
       'Content-Type': 'application/json',
     },
@@ -15,6 +16,8 @@ export const loginUser = async (credentials: LoginCredentials): Promise<AuthResp
   if (!response.ok) {
     throw new Error(data.message || 'Error al iniciar sesión');
   }
+
+  localStorage.setItem('accessToken', data.token || '');
 
   return data;
 };
