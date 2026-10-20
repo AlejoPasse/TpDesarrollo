@@ -28,3 +28,9 @@ export const LoginUsuarioSchema = z.object({
     email: z.string().email("El email no es válido"),
     password: z.string().min(1, "La contraseña es obligatoria") //esquema zod para el login de usuario, solo requiere email y contraseña, ambos obligatorios
 });
+
+// Esquema para validar la recuperación / blanqueo de contraseña
+export const ForgotPasswordSchema = z.object({
+  email: z.string().email('El email no es válido'),
+  password: ValidUsuarioSchema.shape.password, // Reutiliza las mismas reglas estrictas de contraseña
+});

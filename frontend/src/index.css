@@ -1,0 +1,255 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Reseteo y tipografía general */
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: 'Poppins', Helvetica, sans-serif;
+  color: #3f4254;
+  background-color: #ffffff;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+/* Contenedor principal de la vista de login en dos columnas */
+.login-page {
+  display: flex !important;
+  flex-direction: row !important;
+  width: 100% !important;
+  height: 100vh !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+}
+
+/* Columna izquierda: Formulario y logo */
+.login-aside {
+  width: 520px !important;
+  min-width: 520px !important;
+  max-width: 520px !important;
+  height: 100% !important;
+  background-color: #fff !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  flex-shrink: 0 !important;
+  box-sizing: border-box !important;
+  padding: 40px !important;
+}
+
+.login-wrapper {
+  width: 100% !important;
+  max-width: 380px !important;
+}
+
+.login-body {
+  width: 100% !important;
+}
+
+/* Logo */
+.login-logo {
+  text-align: center !important;
+  margin-bottom: 30px !important;
+}
+
+.login-logo img {
+  max-width: 130px !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+/* Título */
+.login-header {
+  margin-bottom: 25px !important;
+}
+
+.login-title {
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+  color: #3f4254 !important;
+  line-height: 1.4 !important;
+  margin: 0 !important;
+}
+
+/* Campos del formulario */
+.login-field {
+  margin-bottom: 20px !important;
+}
+
+.login-field label {
+  display: block !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  color: #3f4254 !important;
+  margin-bottom: 8px !important;
+}
+
+.login-input {
+  width: 100% !important;
+  padding: 12px 16px !important;
+  font-size: 0.95rem !important;
+  font-family: 'Poppins', sans-serif !important;
+  background-color: #f3f6f9 !important;
+  border: 1px solid #e4e6ef !important;
+  border-radius: 6px !important;
+  color: #3f4254 !important;
+  outline: none !important;
+  box-sizing: border-box !important;
+  transition: all 0.3s ease !important;
+}
+
+.login-input:focus {
+  border-color: #3699ff !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(54, 153, 255, 0.1) !important;
+}
+
+/* Opciones (Recordarme / Olvidé mi clave) */
+.login-options {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 25px !important;
+  font-size: 0.9rem !important;
+}
+
+.login-remember {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  color: #7e8299 !important;
+  cursor: pointer !important;
+}
+
+.login-remember input[type="checkbox"] {
+  cursor: pointer !important;
+  width: 16px;
+  height: 16px;
+}
+
+.login-forgot {
+  color: #3699ff !important;
+  text-decoration: none !important;
+  font-weight: 500 !important;
+  transition: color 0.2s ease !important;
+}
+
+.login-forgot:hover {
+  color: #187de4 !important;
+  text-decoration: underline !important;
+}
+
+/* Botón de Ingreso (Verde menta Metronic) */
+.login-actions {
+  margin-bottom: 25px !important;
+}
+
+.login-button {
+  width: 100% !important;
+  background-color: #1bc5bd !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 6px !important;
+  padding: 12px 20px !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  font-family: 'Poppins', sans-serif !important;
+  cursor: pointer !important;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease !important;
+  box-shadow: 0 4px 12px rgba(27, 197, 189, 0.3) !important;
+}
+
+.login-button:hover {
+  background-color: #0bb7af !important;
+}
+
+.login-button:disabled {
+  background-color: #b5b5c3 !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+}
+
+/* Registro inferior */
+.login-account {
+  text-align: center !important;
+  font-size: 0.9rem !important;
+  color: #7e8299 !important;
+}
+
+.login-register {
+  color: #3699ff !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  margin-left: 4px !important;
+}
+
+.login-register:hover {
+  text-decoration: underline !important;
+}
+
+/* Mensaje de error */
+.login-error {
+  background-color: rgba(246, 78, 96, 0.1) !important;
+  color: #f64e60 !important;
+  padding: 12px 16px !important;
+  border-radius: 6px !important;
+  margin-bottom: 20px !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  border: 1px solid rgba(246, 78, 96, 0.2) !important;
+}
+
+/* Columna derecha: Panel con imagen y overlay profesional */
+.login-content {
+  flex: 1 !important;
+  height: 100% !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  padding: 60px !important;
+  box-sizing: border-box !important;
+}
+
+.login-content::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, rgba(24, 28, 50, 0.85) 0%, rgba(30, 144, 255, 0.75) 100%);
+  z-index: 1;
+}
+
+.login-content-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 500px;
+}
+
+.login-welcome {
+  font-size: 2.5rem !important;
+  font-weight: 700 !important;
+  color: #fff !important;
+  margin-bottom: 20px !important;
+  line-height: 1.2 !important;
+}
+
+.login-message {
+  font-size: 1.1rem !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  line-height: 1.6 !important;
+  margin: 0 !important;
+}
