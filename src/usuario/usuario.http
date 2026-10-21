@@ -1,5 +1,13 @@
 ### Aca alojamos todos los protocolos HTTP relacionados a los usuarios
 
+POST http://localhost:3000/api/usuarios/login
+Content-Type: application/json
+
+{
+  "email": "sebas.updated@gmail.com",
+  "password": "Nueva-Contra22"
+}
+
 ### Obtener todos los usuarios
 GET http://localhost:3000/api/usuarios
 
@@ -36,10 +44,3 @@ Content-Type: application/json
 ### Eliminar un usuario
 DELETE http://localhost:3000/api/usuarios/3
 
-POST http://localhost:3000/api/usuarios/login
-Content-Type: application/json
-
-{
-  "email": "sebas.updated@gmail.com",
-  "password": "Nueva-Contra22"
-}

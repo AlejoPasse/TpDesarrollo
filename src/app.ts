@@ -9,7 +9,12 @@ import cors from 'cors'; // <-- 1.Importa cros
 const app = express();
 app.use(express.json());
 app.use (cookieParser());
-app.use(cors()); // <-- 2.Se agregas aquí
+app.use(cors(
+  {
+    origin: 'http://localhost:5173',
+    credentials: true
+  }
+)); // <-- 2.Se agregas aquí
 
 app.use(express.json());
 
