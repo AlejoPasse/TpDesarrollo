@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { loginUser } from '../services/auth.service';
 import logoGym from '../assets/img/logo-gimnasio.jpg';
 import bgGym from '../assets/img/bg-5.jpg';
 import { useNavigate, Link } from 'react-router-dom';
+import { loginUser } from '../services/auth.service';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -27,12 +27,22 @@ export default function Login() {
     setLoading(true);
 
     try {
+      console.log('Enviando login...');
       const data = await loginUser({ email, password });
       console.log('Login exitoso:', data);
-      
-      // Redirigir al usuario al dashboard tras un inicio de sesión exitoso
-      navigate('/dashboard');
+
+      // Guardar sesión y datos del usuario en localStorage
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+
+      // Redirección inteligente basada en el rol
+      if (data.user && data.user.role === 'admin') {
+        navigate('/admin/dashboard');
+      } else {
+        navigate('/cliente/dashboard');
+      }
     } catch (err: unknown) {
+      console.error('Error en login:', err);
       const mensaje =
         err instanceof Error
           ? err.message

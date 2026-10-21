@@ -1,0 +1,147 @@
+.cliente-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #0f172a; /* Azul oscuro muy profesional (Slate 900) */
+  color: #f8fafc;
+  font-family: 'Poppins', sans-serif;
+}
+
+.cliente-sidebar {
+  width: 260px;
+  background: #1e293b; /* Slate 800 */
+  border-right: 1px solid #334155;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.cliente-logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: #38bdf8;
+  text-align: center;
+}
+
+.cliente-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.cliente-nav-link {
+  color: #94a3b8;
+  text-decoration: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.cliente-nav-link.active-link {
+  color: #fff;
+  background: #2563eb; /* Azul corporativo vibrante */
+}
+
+.cliente-nav-link:hover {
+  background: rgba(56, 189, 248, 0.1);
+  color: #38bdf8;
+}
+
+.cliente-logout-btn {
+  padding: 12px;
+  background: #dc2626;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.cliente-logout-btn:hover {
+  background: #b91c1c;
+}
+
+.cliente-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header limpio sin el saludo superior */
+.cliente-header {
+  background: #1e293b;
+  padding: 20px 35px;
+  border-bottom: 1px solid #334155;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.cliente-content {
+  padding: 35px;
+  flex: 1;
+  background: #0f172a;
+}
+
+/* Dashboard Styles */
+.cliente-dashboard-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #f8fafc;
+  margin-bottom: 6px;
+}
+
+.cliente-dashboard-subtitle {
+  color: #94a3b8;
+  margin-bottom: 30px;
+  font-size: 15px;
+}
+
+.cliente-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.cliente-card {
+  background: #1e293b; /* Tarjeta en tono azul oscuro */
+  border: 1px solid #334155;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.cliente-card:hover {
+  border-color: #38bdf8;
+  transform: translateY(-2px);
+}
+
+.cliente-card-title {
+  font-size: 14px;
+  color: #94a3b8;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cliente-card-value-active {
+  font-size: 22px;
+  font-weight: bold;
+  color: #34d399; /* Verde esmeralda claro */
+}
+
+.cliente-card-value-warning {
+  font-size: 22px;
+  font-weight: bold;
+  color: #fbbf24; /* Amarillo cálido */
+}
+
+.cliente-card-value-neutral {
+  font-size: 22px;
+  font-weight: bold;
+  color: #38bdf8; /* Azul claro */
+}

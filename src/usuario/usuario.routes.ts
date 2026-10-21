@@ -7,13 +7,18 @@ import {
     update, 
     sanitizeUserRequest, 
     login, 
-    forgotPassword 
+    forgotPassword,
+    updateClientePerfil 
 } from "./usuario.controller.js"; 
+import { verificarToken } from "../middleware/auth.middleware.js";
 
 export const usuarioRouter = Router();
 
-usuarioRouter.post("/login", login); //ruta para el login de usuario, requiere email y contraseña, ambos obligatorios
-usuarioRouter.post("/forgot-password", forgotPassword); // <--- ¡Colocada aquí antes de /:id para evitar conflictos!
+usuarioRouter.post("/login", login); 
+usuarioRouter.post("/forgot-password", forgotPassword); 
+
+// Ruta protegida para que el cliente actualice su peso y altura
+usuarioRouter.put("/cliente/perfil", verificarToken, sanitizeUserRequest, updateClientePerfil);
 
 usuarioRouter.get("/", findAll);
 usuarioRouter.get("/:id", findOne);

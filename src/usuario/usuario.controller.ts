@@ -1,269 +1,229 @@
-import { Request, Response, NextFunction } from "express";
-import { orm } from "../shared/db/orm.js";                                     
+import { Request, Response } from "express";
+import { orm } from "../shared/db/orm.js";
 import { Usuarios } from "./usuario.entity.js";
-import { ValidUsuarioSchema, UpdateUsuario, LoginUsuarioSchema } from './usuario.schema.js';
-import argon2 from 'argon2';
-import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-import { wrap } from '@mikro-orm/core';
-dotenv.config();
+import argon2 from "argon2";
+import jwt from "jsonwebtoken";
 
-const em = orm.em;
+const JWT_SECRET = process.env.JWT_SECRET || "secreto_super_seguro";
 
-//register
-async function register(req: Request, res: Response) {
-    try {
-        const valid = ValidUsuarioSchema.safeParse(req.body);
-
-        if (!valid.success) {
-            return res.status(400).json({
-                message: "Fallo al registrar usuario",
-                errors: valid.error.issues.map(issue => ({
-                    campo_error: issue.path.join('.'),
-                    mensaje: issue.message
-                }))
-            });
-        }
-
-        const { name, email, password } = valid.data;
-
-        // Verifica si el usuario ya existe
-        const existingUser = await em.findOne(Usuarios, { email });
-        if (existingUser) {
-            return res.status(400).json({
-                message: "El email ya está en uso"
-            });
-        }
-
-        // Hashea la contraseña
-        const hashedPassword = await argon2.hash(password);
-
-        // Crea el nuevo usuario
-        const user = em.create(Usuarios, {
-            name,
-            email,
-            password: hashedPassword
-        });
-
-        await em.flush();
-
-        return res.status(201).json({
-            message: "Usuario registrado exitosamente",
-            data: {
-                id: user.id,
-                name: user.name,
-                email: user.email
-            }
-        });
-    } catch (error: any) {
-        console.error("Error en register:", error);
-        return res.status(500).json({
-            message: error.message
-        });
-    }
+export async function findAll(req: Request, res: Response) {
+  try {
+    const em = orm.em.fork();
+    const usuarios = await em.find(Usuarios, {});
+    return res.status(200).json({ message: "Usuarios encontrados", data: usuarios });
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
 }
 
-// login
-async function login(req: Request, res: Response) {
-    try {
-        const valid = LoginUsuarioSchema.safeParse(req.body);
+export async function findOne(req: Request, res: Response) {
+  try {
+    const em = orm.em.fork();
+    const id = Number.parseInt(String(req.params.id));
+    const usuario = await em.findOne(Usuarios, { id } as any);
+    if (!usuario) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+    return res.status(200).json({ message: "Usuario encontrado", data: usuario });
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+}
 
-        if (!valid.success) {
-            return res.status(400).json({
-                message: "Error de validación",
-                errors: valid.error.issues.map(issue => ({
-                    campo_error: issue.path.join('.'),
-                    mensaje: issue.message
-                }))
-            });
-        }
-
-        const { email, password } = valid.data;
-
-        // Busca el usuario en la base de datos por email
-        const user = await em.findOne(Usuarios, { email });
-
-        if (!user) {
-            return res.status(401).json({
-                message: "Email o contraseña incorrectos"
-            });
-        }
-
-        // Verifica la contraseña usando argon2
-        const passwordCorrecta = await argon2.verify(user.password, password);
-
-        if (!passwordCorrecta) {
-            return res.status(401).json({
-                message: "Email o contraseña incorrectos"
-            });
-        }
-
-        // Genera un token JWT para el usuario autenticado
-        const secret = process.env.JWT_SECRET;
-        if (!secret) {
-            throw new Error("JWT_SECRET no está configurado");
-        }
-
-        const token = jwt.sign(
-            { id: user.id, email: user.email }, 
-            secret, { expiresIn: '15m' } 
-        );
-
-        const refreshToken = jwt.sign(
-            { id: user.id, email: user.email }, 
-            secret, { expiresIn: '7d' }
-        );
+export async function add(req: Request, res: Response) {
+  try {
+    const em = orm.em.fork();
     
-        // Devuelve el token y la información del usuario
-        return res.status(200).json({
-            message: "Login exitoso",
-            data: {
-                id: user.id,
-                email: user.email,
-                token: token,
-                refreshToken: refreshToken
-            }
-        });
-    } catch (error: any) {
-        console.error("Error en login:", error);
-
-        return res.status(500).json({
-            message: error.message
-        });
-    }
-} 
-
-//request sanitizada ZOD
-function sanitizeUserRequest(req: Request, res: Response, next: NextFunction) {
-    const schema = req.method === 'PATCH' 
-        ? UpdateUsuario
-        : ValidUsuarioSchema;
-
-    const valid = schema.safeParse(req.body);
-
-    if (!valid.success) {
-        return res.status(400).json({
-            message: 'Error de validación',
-            errors: valid.error.issues.map(issue => ({
-                campo_error: issue.path.join('.'),
-                mensaje: issue.message
-            }))
-        });
+    const existingUser = await em.findOne(Usuarios, { email: req.body.email });
+    if (existingUser) {
+      return res.status(400).json({ message: "El correo electrónico ya está registrado" });
     }
 
-    req.body.sanitizedInput = valid.data;
-    next();
+    const hashedPassword = await argon2.hash(req.body.password);
+
+    const usuario = em.create(Usuarios, {
+      name: req.body.name,
+      email: req.body.email,
+      password: hashedPassword,
+      role: req.body.role || "cliente", 
+      peso: req.body.peso || 70.0,
+      altura: req.body.altura || 1.75,
+    });
+
+    em.persist(usuario);
+    await em.flush();
+
+    return res.status(201).json({ message: "Usuario creado con éxito", data: usuario });
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
 }
 
-//findAll
-async function findAll(req: Request, res: Response) {
-    try {
-        const users = await em.find(Usuarios, {});
-        res.status(200).json({ message: "Users found", data: users.map(user => ({
-            id: user.id,
-            name: user.name,
-            email: user.email
-        })) });
-    } catch (error: any) {
-        res.status(500).json({ message: error.message });
-    }
-} 
+export const create = add;
 
-//findOne
-async function findOne(req: Request, res: Response) {
-    console.log("Método:", req.method);
-    console.log("URL:", req.originalUrl);
-    try {
-        const id = parseInt(req.params.id as string);
-        const user = await em.findOne(Usuarios, { id });
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
-        res.status(200).json({ message: "User found", data: {
-            id: user.id, 
-            name: user.name, 
-            email: user.email
-        } });
-    } catch (error: any) {
-        res.status(500).json({ message: error.message });
+export async function update(req: Request, res: Response) {
+  try {
+    const em = orm.em.fork();
+    const id = Number.parseInt(String(req.params.id));
+    const usuario = await em.findOne(Usuarios, { id } as any);
+
+    if (!usuario) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
     }
+
+    if (req.body.password) {
+      req.body.password = await argon2.hash(req.body.password);
+    }
+
+    em.assign(usuario, req.body);
+    await em.flush();
+
+    return res.status(200).json({ message: "Usuario actualizado con éxito", data: usuario });
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
 }
 
-//create
-async function create(req: Request, res: Response) {
-    try {
-        const data = req.body.sanitizedInput;       
-        data.password = await argon2.hash(data.password);       
-        const user = em.create(Usuarios, data);
-        await em.flush();
-        res.status(201).json({ message: "User created", data: {
-            id: user.id, 
-            name: user.name, 
-            email: user.email
-        }});
-    } catch (error: any) {
-        res.status(500).json({ message: error.message });
+export async function remove(req: Request, res: Response) {
+  try {
+    const em = orm.em.fork();
+    const id = Number.parseInt(String(req.params.id));
+    const usuario = await em.findOne(Usuarios, { id } as any);
+
+    if (!usuario) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
     }
+
+    em.remove(usuario);
+    await em.flush();
+
+    return res.status(200).json({ message: "Usuario eliminado con éxito" });
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
 }
 
-//update
-async function update(req: Request, res: Response) {
-    try {
-        const id = Number.parseInt(req.params.id as string);
-        const data = req.body.sanitizedInput;
+export async function login(req: Request, res: Response) {
+  try {
+    const em = orm.em.fork();
+    const { email, password } = req.body;
 
-        if (data.password !== undefined) {
-            data.password = await argon2.hash(data.password);
-        }
-        
-        const user = em.getReference(Usuarios, id);
-        em.assign(user, data);
-        await em.flush();
-        res.status(200).json({ message: "User updated", data: {
-            id: user.id,
-            name: user.name,
-            email: user.email
-        } });
-    } catch (error: any) {
-        res.status(500).json({ message: error.message });
+    const usuario = await em.findOne(Usuarios, { email });
+    if (!usuario) {
+      return res.status(401).json({ message: "Credenciales inválidas" });
     }
+
+    const validPassword = await argon2.verify(usuario.password, password);
+    if (!validPassword) {
+      return res.status(401).json({ message: "Credenciales inválidas" });
+    }
+
+    const userId = (usuario as any).id;
+
+    const token = jwt.sign(
+      { id: userId, email: usuario.email, role: usuario.role },
+      JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    return res.status(200).json({
+      message: "Login exitoso",
+      token,
+      user: {
+        id: userId,
+        name: usuario.name,
+        email: usuario.email,
+        role: usuario.role,
+        peso: (usuario as any).peso,
+        altura: (usuario as any).altura,
+      },
+    });
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
 }
 
-//delete
-async function remove(req: Request, res: Response) {
-    try {
-        const id = Number.parseInt(req.params.id as string);
-        const user = await em.getReference(Usuarios, id);
-        em.remove(user);
-        await em.flush();
-        res.status(200).json({ message: "User deleted" });
-    } catch (error: any) {
-        res.status(500).json({ message: error.message });
+export async function forgotPassword(req: Request, res: Response) {
+  try {
+    const em = orm.em.fork();
+    const { email, password } = req.body;
+
+    const usuario = await em.findOne(Usuarios, { email });
+    if (!usuario) {
+      return res.status(404).json({ message: "Usuario no encontrado con ese correo" });
     }
+
+    const hashedPassword = await argon2.hash(password);
+    usuario.password = hashedPassword;
+
+    await em.flush();
+
+    return res.status(200).json({ message: "Contraseña actualizada con éxito" });
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
 }
 
-// Función para actualizar la contraseña directamente por email
-async function forgotPassword(req: Request, res: Response) {
-    try {
-        const { email, password } = req.body;
-
-        // 1. Buscar al usuario por su email usando la entidad correcta 'Usuarios'
-        const usuario = await em.findOne(Usuarios, { email });
-        if (!usuario) {
-            return res.status(404).json({ message: 'No existe un usuario registrado con ese email' });
-        }
-
-        // 2. Hashear la nueva contraseña con Argon2
-        const hashedPassword = await argon2.hash(password);
-
-        // 3. Actualizar la contraseña en la entidad y guardar en la base de datos
-        usuario.password = hashedPassword;
-        await em.flush();
-
-        return res.status(200).json({ message: 'Contraseña actualizada con éxito' });
-    } catch (error: any) {
-        return res.status(500).json({ message: 'Error al actualizar la contraseña', error: error.message });
+export async function updateClientePerfil(req: any, res: Response) {
+  try {
+    const em = orm.em.fork();
+    const userId = Number(req.user?.id || req.user?.userId);
+    
+    if (!userId || isNaN(userId)) {
+      return res.status(401).json({ message: "No autorizado: ID de usuario no válido" });
     }
+
+    const usuario = await em.findOne(Usuarios, { id: userId } as any);
+    if (!usuario) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    let { peso, altura } = req.body;
+
+    if (peso !== undefined) {
+      peso = Number(String(peso).replace(',', '.'));
+    }
+    if (altura !== undefined) {
+      altura = Number(String(altura).replace(',', '.'));
+    }
+
+    em.assign(usuario, { 
+      peso: !isNaN(peso) ? peso : (usuario as any).peso, 
+      altura: !isNaN(altura) ? altura : (usuario as any).altura 
+    } as any);
+
+    await em.flush();
+
+    return res.status(200).json({
+      message: "Perfil actualizado con éxito",
+      user: {
+        id: userId,
+        name: (usuario as any).name,
+        email: (usuario as any).email,
+        role: (usuario as any).role,
+        peso: (usuario as any).peso,
+        altura: (usuario as any).altura,
+      },
+    });
+  } catch (error: any) {
+    console.error("ERROR DETALLADO EN ACTUALIZAR PERFIL:", error);
+    return res.status(500).json({ message: error.message || "Error interno del servidor" });
+  }
 }
 
-export { findAll, findOne, create, sanitizeUserRequest, update, remove, login, forgotPassword };
+export async function sanitizeUserRequest(req: Request, res: Response, next: Function) {
+  next();
+}
+
+export const usuarioController = {
+  findAll,
+  findOne,
+  add,
+  create,
+  update,
+  remove,
+  login,
+  forgotPassword,
+  sanitizeUserRequest,
+  updateClientePerfil,
+};
